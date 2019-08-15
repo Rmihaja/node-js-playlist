@@ -1,34 +1,32 @@
-$(document).ready(function(){
+$(document).ready(function() {
+    $('form').on('submit', function() {
+        const item = $('form input');
+        const todo = { item: item.val() };
 
-  $('form').on('submit', function(){
+        $.ajax({
+            type: 'POST',
+            url: '/todo',
+            data: todo,
+            success(data) {
+                // do something with the data via front-end framework
+                location.reload();
+            },
+        });
 
-      var item = $('form input');
-      var todo = {item: item.val()};
+        return false;
+    });
 
-      $.ajax({
-        type: 'POST',
-        url: '/todo',
-        data: todo,
-        success: function(data){
-          //do something with the data via front-end framework
-          location.reload();
-        }
-      });
-
-      return false;
-
-  });
-
-  $('li').on('click', function(){
-      var item = $(this).text().replace(/ /g, "-");
-      $.ajax({
-        type: 'DELETE',
-        url: '/todo/' + item,
-        success: function(data){
-          //do something with the data via front-end framework
-          location.reload();
-        }
-      });
-  });
-
+    $('li').on('click', function() {
+        const item = $(this)
+            .text()
+            .replace(/ /g, '-');
+        $.ajax({
+            type: 'DELETE',
+            url: `/todo/${item}`,
+            success(data) {
+                // do something with the data via front-end framework
+                location.reload();
+            },
+        });
+    });
 });
